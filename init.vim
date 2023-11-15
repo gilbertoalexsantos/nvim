@@ -8,6 +8,12 @@ let mapleader = "\<Space>"
 
 "" C++
 let g:clang_format#detect_style_file = 1
+augroup cpp_files_indentation
+    autocmd!
+    autocmd FileType cpp setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd BufRead,BufNewFile *.in setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
+augroup END
 
 
 "" Vim
@@ -25,6 +31,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'onsails/lspkind.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'vim-airline/vim-airline' 
 Plug 'vim-airline/vim-airline-themes'

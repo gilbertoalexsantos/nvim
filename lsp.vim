@@ -4,12 +4,44 @@ lua << EOF
 
 
 -- CMP
+local lspkind = require('lspkind')
 local cmp = require'cmp'
-cmp.setup {
-  sources = {
-    { name = 'nvim_lsp' }
-  }
-}
+
+WIDE_HEIGHT = 60
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+--      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+    end,
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = {
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      max_height = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)),
+      max_width = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))),
+    }
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-n>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+    ['<C-p>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), 
+  }),
+  formatting = {
+    format = lspkind.cmp_format({ mode = 'symbol' })
+  },
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    --{ name = 'luasnip' }, -- For luasnip users.
+  }, {
+    { name = 'buffer' },
+  })
+})
 
 
 
