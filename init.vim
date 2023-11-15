@@ -5,17 +5,21 @@ set ruler
 set expandtab
 let mapleader = "\<Space>"
 
+
 "" C++
 let g:clang_format#detect_style_file = 1
 
-" Quitting insert mode
-inoremap jk <esc> " For insert mode
-vnoremap jk <esc> " For visual and select mode
+
+"" Vim
+augroup VimFileType
+    autocmd!
+    autocmd FileType vim setlocal expandtab shiftwidth=2 softtabstop=2
+augroup END
 
 
 "" Plug
 call plug#begin('~/.config/nvim/plugged')
-Plug 'sainnhe/sonokai' " Colorscheme based on monokai
+Plug 'sainnhe/sonokai'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'neovim/nvim-lspconfig'
@@ -28,6 +32,13 @@ Plug 'majutsushi/tagbar'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.4' }
 Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+Plug 'NeogitOrg/neogit'
+Plug 'sindrets/diffview.nvim'
+Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
+Plug 'nvim-telescope/telescope-file-browser.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
 
@@ -107,7 +118,13 @@ vim.g.loaded_netrwPlugin = 1
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true 
 
-require("nvim-tree").setup()
+require("nvim-tree").setup({
+  filters = {
+    custom = {
+      "^.git$"
+    }
+  }
+})
 EOF
 
 
@@ -121,7 +138,48 @@ colorscheme sonokai
 
 
 "" Telescope
-nnoremap <Leader>f <cmd>Telescope find_files<CR>
+nnoremap <Leader>lf <cmd>Telescope find_files<CR>
+lua << EOF
+vim.api.nvim_set_keymap("n", "<leader>lc", ":Telescope file_browser path=%:p:h<CR>", {noremap = true, silent = true})
+EOF
+nnoremap <Leader>f <cmd>Telescope current_buffer_fuzzy_find<CR>
 nnoremap <Leader>b  <cmd>Telescope buffers<CR> 
 nnoremap <Leader>lg <cmd>Telescope live_grep<CR>
 nnoremap <Leader>lh <cmd>Telescope help_tags<CR>
+
+lua << EOF
+require('telescope').setup {
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+    }
+  }
+}
+require('telescope').load_extension "fzf"
+require("telescope").load_extension "file_browser"
+EOF
+
+
+"" Mason
+lua << EOF
+require("mason").setup ({
+  install_root_dir = vim.fn.stdpath "config" .. "/mason"
+})
+EOF
+
+
+"" Neogit
+lua << EOF
+local neogit = require('neogit')
+neogit.setup {
+  integrations = {
+    telescope = true,
+    diffview = true,
+    fzf_lua = true,
+  }
+}
+vim.api.nvim_set_keymap("n", "<leader>g", ":Neogit<CR>", {noremap = true, silent = true})
+EOF

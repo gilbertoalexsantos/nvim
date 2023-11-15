@@ -72,9 +72,8 @@ lsp.clangd.setup({
     clangdFileStatus = true
   },
   capabilities = capabilities,
-  on_attach=on_attach
+  on_attach = on_attach
 })
-
 
 
 EOF
