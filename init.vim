@@ -149,7 +149,7 @@ colorscheme sonokai
 
 
 "" Telescope
-nnoremap <Leader>lf <cmd>Telescope find_files<CR>
+nnoremap <Leader>lf <cmd>Telescope find_files hidden=true<CR>
 lua << EOF
 vim.api.nvim_set_keymap("n", "<leader>lc", ":Telescope file_browser path=%:p:h<CR>", {noremap = true, silent = true})
 EOF
