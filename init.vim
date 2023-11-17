@@ -6,6 +6,10 @@ set expandtab
 let mapleader = "\<Space>"
 
 
+"" Mapping
+nmap <Leader>q :q<CR>
+
+
 "" C++
 let g:clang_format#detect_style_file = 1
 augroup cpp_files_indentation
@@ -116,7 +120,7 @@ let g:airline#extensions#branch#enabled = 1
 
 
 "" nvim-tree
-nmap <Leader>n :NvimTreeToggle<CR>
+nmap <Leader>n :NvimTreeFindFile<CR>
 lua << EOF
 -- disable NerdTree
 vim.g.loaded_netrw = 1
@@ -190,3 +194,19 @@ neogit.setup {
 }
 vim.api.nvim_set_keymap("n", "<leader>g", ":Neogit<CR>", {noremap = true, silent = true})
 EOF
+
+
+"" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <leader>a :ZoomToggle<CR>
