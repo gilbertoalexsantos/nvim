@@ -50,6 +50,7 @@ Plug 'sindrets/diffview.nvim'
 Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 call plug#end()
 
 
@@ -210,3 +211,9 @@ function! s:ZoomToggle() abort
 endfunction
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>a :ZoomToggle<CR>
+
+
+"" BufOnly
+lua << EOF
+vim.api.nvim_set_keymap('n', '<leader>x', ':BufOnly<CR>', { noremap = true, silent = true })
+EOF
