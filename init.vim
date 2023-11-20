@@ -52,6 +52,9 @@ Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
 Plug 'L3MON4D3/LuaSnip'
+" Leap
+Plug 'tpope/vim-repeat'
+Plug 'ggandor/leap.nvim'
 call plug#end()
 
 
@@ -217,4 +220,14 @@ nnoremap <silent> <leader>a :ZoomToggle<CR>
 "" BufOnly
 lua << EOF
 vim.api.nvim_set_keymap('n', '<leader>x', ':BufOnly<CR>', { noremap = true, silent = true })
+EOF
+
+
+"" Leap
+lua << EOF
+require('leap').add_default_mappings()
+vim.keymap.set('n', '<leader>s', function ()
+  local current_window = vim.fn.win_getid()
+  require('leap').leap { target_windows = { current_window } }
+end)
 EOF
