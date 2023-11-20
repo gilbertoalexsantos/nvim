@@ -14,6 +14,8 @@
     * brew install ripgrep
 * Install cmake
     * brew install cmake
+* Install fzf
+    * brew install fzf
 
 ## C++
 
