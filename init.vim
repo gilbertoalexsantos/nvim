@@ -137,7 +137,8 @@ vim.opt.termguicolors = true
 require("nvim-tree").setup({
   filters = {
     custom = {
-      "^.git$"
+      "^.git$",
+      ".DS_Store"
     }
   }
 })
