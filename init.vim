@@ -51,6 +51,7 @@ Plug 'ibhagwan/fzf-lua', {'branch': 'main'}
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'numtostr/BufOnly.nvim', { 'on': 'BufOnly' }
+Plug 'L3MON4D3/LuaSnip'
 call plug#end()
 
 
