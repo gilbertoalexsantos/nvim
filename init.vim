@@ -16,6 +16,7 @@ augroup cpp_files_indentation
     autocmd!
     autocmd FileType cpp setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
     autocmd FileType c setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
+    autocmd FileType inl setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
     autocmd BufRead,BufNewFile *.in setlocal expandtab shiftwidth=4 softtabstop=4 tabstop=4
 augroup END
 
@@ -24,6 +25,13 @@ augroup END
 augroup VimFileType
     autocmd!
     autocmd FileType vim setlocal expandtab shiftwidth=2 softtabstop=2
+augroup END
+
+
+"" Lua
+augroup LuaFileType
+    autocmd!
+    autocmd FileType lua setlocal expandtab shiftwidth=2 softtabstop=2
 augroup END
 
 
@@ -191,6 +199,8 @@ EOF
 "" Neogit
 lua << EOF
 local neogit = require('neogit')
+local utils = require('utils')
+
 neogit.setup {
   integrations = {
     telescope = true,
@@ -198,11 +208,22 @@ neogit.setup {
     fzf_lua = true,
   }
 }
-vim.api.nvim_set_keymap("n", "<leader>g", ":Neogit<CR>", {noremap = true, silent = true})
+
+function focus_or_create_neogit_tab()
+  local neogit_buffer = utils.find_buffer_by_name('NeogitStatus')
+
+  if neogit_buffer ~= nil then
+    utils.switch_to_window_with_buffer(neogit_buffer)
+    require("neogit.status").dispatch_refresh(true)
+  else
+    vim.cmd('Neogit')
+  end
+end
+vim.api.nvim_set_keymap("n", "<leader>g", ":lua focus_or_create_neogit_tab()<CR>", {noremap = true, silent = true})
 EOF
 
 
-"" Zoom / Restore window.
+"" Zoom / Restore window
 function! s:ZoomToggle() abort
     if exists('t:zoomed') && t:zoomed
         execute t:zoom_winrestcmd
