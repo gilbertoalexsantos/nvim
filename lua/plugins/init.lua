@@ -372,21 +372,6 @@ return {
     lazy = false,
   },
   {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-    },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
-    }
-  },
-  {
     "seblyng/roslyn.nvim",
     ft = "cs",
     config = {
