@@ -18,6 +18,117 @@ return {
       end
     end,
     lazy = false,
+    config = function()
+      local function close_buffer_and_focus_neighbor()
+        local current_buf = vim.api.nvim_get_current_buf()
+        local bufferline = require("bufferline.state")
+        local visible_buffers = bufferline.components
+
+        local current_index = nil
+        for i, comp in ipairs(visible_buffers) do
+          if comp.id == current_buf then
+            current_index = i
+            break
+          end
+        end
+
+        local function is_valid(buf)
+          return vim.api.nvim_buf_is_valid(buf)
+              and vim.bo[buf].buflisted
+              and vim.bo[buf].filetype ~= "NvimTree"
+        end
+
+        local target_buf = nil
+
+        if current_index then
+          -- Try left
+          for i = current_index - 1, 1, -1 do
+            local buf = visible_buffers[i].id
+            if is_valid(buf) then
+              target_buf = buf
+              break
+            end
+          end
+          -- If no valid left buffer, try right
+          if not target_buf then
+            for i = current_index + 1, #visible_buffers do
+              local buf = visible_buffers[i].id
+              if is_valid(buf) then
+                target_buf = buf
+                break
+              end
+            end
+          end
+        end
+
+        local function close_and_switch()
+          vim.cmd("bd! " .. current_buf)
+          if target_buf then
+            vim.api.nvim_set_current_buf(target_buf)
+          end
+        end
+
+        if vim.bo[current_buf].modified then
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(current_buf), ":t")
+          vim.ui.input({ prompt = "Save changes to '" .. filename .. "' before closing? (y/n)" }, function(answer)
+            if answer == "y" then
+              vim.api.nvim_buf_call(current_buf, function()
+                vim.cmd("write")
+              end)
+              close_and_switch()
+            elseif answer == "n" then
+              close_and_switch()
+            else
+              -- Do nothing (cancel)
+            end
+          end)
+        else
+          close_and_switch()
+        end
+      end
+
+      local function delete_buffers_to_right()
+        local current_buf = vim.api.nvim_get_current_buf()
+        local bufferline = require("bufferline.state")
+        local visible_buffers = bufferline.components
+
+        local current_index = nil
+        for i, comp in ipairs(visible_buffers) do
+          if comp.id == current_buf then
+            current_index = i
+            break
+          end
+        end
+
+        if not current_index then return end
+
+        for i = #visible_buffers, current_index + 1, -1 do
+          local buf = visible_buffers[i].id
+          if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted and vim.bo[buf].filetype ~= "NvimTree" then
+            if vim.bo[buf].modified then
+              local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+              vim.ui.input({ prompt = "Save changes to '" .. filename .. "' before closing? (y/n)" }, function(answer)
+                if answer == "y" then
+                  vim.api.nvim_buf_call(buf, function()
+                    vim.cmd("write")
+                  end)
+                end
+                vim.cmd("bd! " .. buf)
+              end)
+            else
+              vim.cmd("bd " .. buf)
+            end
+          end
+        end
+      end
+
+      require("bufferline").setup()
+      for i = 1, 9 do
+        vim.keymap.set('n', '<leader>' .. i, '<Cmd>BufferLineGoToBuffer ' .. i .. '<CR>')
+      end
+      vim.keymap.set('n', '<leader>d', close_buffer_and_focus_neighbor, { silent = true })
+      vim.keymap.set("n", "<leader>bd", delete_buffers_to_right)
+    end,
   },
   {
     'mrcjkb/rustaceanvim',
