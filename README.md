@@ -1,22 +1,65 @@
-## General
+# Updating assets
 
+## catppuccin iterm
+
+https://github.com/catppuccin/iterm?tab=readme-ov-file
+
+## iterm2-profile.json
+
+From iTerm, go to ```Settings -> Profile -> Other Actions -> Save Profile as JSON...```
+
+# Configuration
+
+## homebrew
+
+https://brew.sh/
 
 ```bash
-brew intall ctags ripgrep cmake fzf
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Software
-* iTerm
-    * Inconsolata Font, size 18 (install from assets)
-    * Sonokai color (install from assets)
+## iTerm
 
+```bash
+brew install --cask iterm2
+brew install --cask font-jetbrains-mono
+brew install --cask font-hack-nerd-font
+```
 
-First nvim execution
-1. :PlugInstall
-2. :TSInstall cpp
+Import iterm2 profile from ```assets/iterm2-profile.json```
 
+## rust
 
-## C++ LSP
+https://www.rust-lang.org/tools/install
 
-* compile_commands.json needs to be in the project dir
-    * Consider using ```ln -s out/mac-apple-clang-x64/compile_commands.json compile_commands.json```
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+## nvim
+
+```bash
+brew install nvim coreutils rg pyenv pyenv-virtualenv tree-sitter
+echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrceval "$(pyenv init -)"
+source ~/.zshrc
+pyenv install 3
+pyenv virtualenv 3 py3nvim
+```
+
+```bash
+echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+```
+
+```bash
+pyenv activate py3nvim
+python3 -m pip install pynvim
+pyenv which python # Add the path to init.lua
+```
+
+## todo
+
+* Export iterm2 profile
