@@ -59,7 +59,3 @@ pyenv activate py3nvim
 python3 -m pip install pynvim
 pyenv which python # Add the path to init.lua
 ```
-
-## todo
-
-* Export iterm2 profile
