@@ -356,6 +356,7 @@ return {
 
       local packages = {
         "lua-language-server",
+        "roslyn",
       }
 
       for _, pkg in ipairs(packages) do
@@ -385,4 +386,17 @@ return {
       },
     }
   },
+  {
+    "seblyng/roslyn.nvim",
+    ft = "cs",
+    config = {
+        cmd = {
+            "dotnet",
+            "<target>/Microsoft.CodeAnalysis.LanguageServer.dll",
+            "--logLevel=Information",
+            "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+            "--stdio",
+        },
+    },
+  }
 }

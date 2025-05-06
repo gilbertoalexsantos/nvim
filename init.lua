@@ -36,7 +36,7 @@ vim.keymap.set("n", "gr", vim.lsp.buf.rename)
 vim.keymap.set('n', 'gR', builtin.lsp_references)
 vim.keymap.set('n', 'gi', builtin.lsp_implementations)
 vim.keymap.set('n', 'gd', builtin.lsp_definitions)
-vim.keymap.set('n', 'gd', builtin.lsp_type_definitions)
+vim.keymap.set('n', 'gD', builtin.lsp_type_definitions)
 vim.keymap.set('n', 'ge', function()
   builtin.diagnostics({ bufnr = 0 })
 end)
@@ -133,3 +133,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cs",
+  callback = function()
+    vim.bo.expandtab = true
+    vim.bo.autoindent = true
+    vim.bo.smartindent = true
+  end,
+})
