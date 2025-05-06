@@ -34,8 +34,8 @@ return {
 
         local function is_valid(buf)
           return vim.api.nvim_buf_is_valid(buf)
-              and vim.bo[buf].buflisted
-              and vim.bo[buf].filetype ~= "NvimTree"
+            and vim.bo[buf].buflisted
+            and vim.bo[buf].filetype ~= "NvimTree"
         end
 
         local target_buf = nil
@@ -142,7 +142,7 @@ return {
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "lua", "vim", "vimdoc", "rust", "toml" },
+        ensure_installed = { "lua", "vim", "vimdoc", "rust", "toml", "c_sharp" },
         sync_install = false,
         highlight = { enable = true },
         indent = { enable = true },
@@ -346,5 +346,43 @@ return {
     config = function()
       require('lualine').setup()
     end
-  }
+  },
+  {
+    'williamboman/mason.nvim',
+    config = function()
+      require('mason').setup()
+
+      local mason_registry = require('mason-registry')
+
+      local packages = {
+        "lua-language-server",
+      }
+
+      for _, pkg in ipairs(packages) do
+        if not mason_registry.is_installed(pkg) then
+          vim.cmd("MasonInstall " .. pkg)
+        end
+      end
+    end,
+    lazy = false,
+  },
+  {
+    "editorconfig/editorconfig-vim",
+    lazy = false,
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    }
+  },
 }

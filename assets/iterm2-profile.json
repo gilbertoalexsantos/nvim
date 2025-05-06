@@ -505,6 +505,7 @@
   ],
   "Cursor Boost (Light)" : 0,
   "Use Tab Color (Light)" : false,
+  "Set Local Environment Vars" : 2,
   "Ansi 6 Color (Light)" : {
     "Red Component" : 0.58039215686274515,
     "Color Space" : "sRGB",
@@ -527,6 +528,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.54509803921568623
   },
+  "Custom Locale" : "en_US.UTF-8",
   "Use Bold Font" : true,
   "Ansi 8 Color (Light)" : {
     "Red Component" : 0.34509803921568627,
