@@ -44,7 +44,7 @@ brew install nvim coreutils rg pyenv pyenv-virtualenv tree-sitter
 
 ```bash
 echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
-echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+echo 'eval "$(pyenv init - zsh)"' >> ~/.zshrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 ```
 
