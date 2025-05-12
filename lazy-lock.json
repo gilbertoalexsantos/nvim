@@ -21,6 +21,5 @@
   "roslyn.nvim": { "branch": "main", "commit": "7f8c18c6aac3667e0c0ec1aa30ecc77d3d36807f" },
   "rustaceanvim": { "branch": "master", "commit": "f039dca9d2ac2061bd1ec45b7894a2659d6aa6cd" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
-  "vim-floaterm": { "branch": "master", "commit": "204a01a3868cbe4549640dca857fb3880ee92b17" },
-  "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" }
+  "vim-floaterm": { "branch": "master", "commit": "204a01a3868cbe4549640dca857fb3880ee92b17" }
 }

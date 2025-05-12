@@ -40,18 +40,17 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 ```bash
 brew install nvim coreutils rg pyenv pyenv-virtualenv tree-sitter
-echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
-echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrceval "$(pyenv init -)"
-source ~/.zshrc
-pyenv install 3
-pyenv virtualenv 3 py3nvim
 ```
 
 ```bash
 echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
 echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+```
+
+```bash
+pyenv install 3
+pyenv virtualenv 3 py3nvim
 ```
 
 ```bash
