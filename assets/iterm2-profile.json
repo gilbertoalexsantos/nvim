@@ -245,7 +245,7 @@
   },
   "Vertical Spacing" : 1,
   "Minimum Contrast (Light)" : 0,
-  "Disable Window Resizing" : false,
+  "Disable Window Resizing" : true,
   "Use Selected Text Color (Dark)" : true,
   "Close Sessions On End" : true,
   "Selection Color (Dark)" : {
