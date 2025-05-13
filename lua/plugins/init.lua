@@ -287,15 +287,13 @@ return {
       vim.keymap.set(
         "n",
         "<leader>t",
-        open_nvim_tree_at_git_root,
-        { buffer = bufnr, desc = "Toggle NvimTree at Git root" }
+        open_nvim_tree_at_git_root
       )
 
       vim.keymap.set(
         "n",
         "<leader>T",
-        require("nvim-tree.api").tree.close,
-        { buffer = bufnr, desc = "Toggle NvimTree at Git root" }
+        require("nvim-tree.api").tree.close
       )
 
       require("nvim-tree").setup {
